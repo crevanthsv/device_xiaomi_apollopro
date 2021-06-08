@@ -17,7 +17,4 @@ PRODUCT_MODEL := Mi 10T Pro
 
 PRODUCT_GMS_CLIENTID_BASE := android-xiaomi
 
-PRODUCT_BUILD_PROP_OVERRIDES += \
-    PRIVATE_BUILD_DESC="qssi-user 10 QKQ1.200419.002 V12.0.6.0.QJDMIXM release-keys"
-
 BUILD_FINGERPRINT := Xiaomi/apollo_global/apollo:10/QKQ1.200419.002/V12.0.6.0.QJDMIXM:user/release-keys

@@ -75,26 +75,26 @@ void vendor_load_properties() {
         property_override(prop_name.c_str(), value.c_str(), false);
     };
 
-    std::string region;
-    region = GetProperty("ro.boot.hwc", "");
+    std::string product_model;
+    product_model = GetProperty("ro.product.odm.model", "");
 
-    if (region == "CN") {
+    if (product_model == "M2007J3SG") {
         for (const auto &source : ro_props_default_source_order) {
             set_ro_build_prop(source, "fingerprint",
-                               "google/walleye/walleye:8.1.0/OPM1.171019.011/4448085:user/release-keys");
-            set_ro_product_prop(source, "brand", "Redmi");
-            set_ro_product_prop(source, "device", "phoenix");
-            set_ro_product_prop(source, "model", "Redmi K30");
+                               "google/sunfish/sunfish:11/RQ1A.201205.008/6943376:user/release-keys");
+            set_ro_product_prop(source, "brand", "Xiaomi");
+            set_ro_product_prop(source, "device", "apollo");
+            set_ro_product_prop(source, "model", "Mi 10T Pro");
         }
-        property_override("ro.build.description", "phoenix-user 10 QKQ1.190825.002 V11.0.9.0.QGHCNXM release-keys");
-    } else if (region == "INDIA") {
+        property_override("ro.build.description", "apollo-user 10 QKQ1.200419.002 V12.0.6.0.QJDMIXM release-keys");
+    } else if (product_model == "M2007J3SY") {
         for (const auto &source : ro_props_default_source_order) {
             set_ro_build_prop(source, "fingerprint",
-                              "google/walleye/walleye:8.1.0/OPM1.171019.011/4448085:user/release-keys");
-            set_ro_product_prop(source, "brand", "POCO");
-            set_ro_product_prop(source, "device", "phoenixin");
-            set_ro_product_prop(source, "model", "POCO X2");
+                              "google/sunfish/sunfish:11/RQ1A.201205.008/6943376:user/release-keys");
+            set_ro_product_prop(source, "brand", "Xiaomi");
+            set_ro_product_prop(source, "device", "apollo_global");
+            set_ro_product_prop(source, "model", "Mi 10T");
         }
-        property_override("ro.build.description", "phoenixin-user 10 QKQ1.190825.002 V11.0.6.0.QGHINXM release-keys");
+        property_override("ro.build.description", "apollo-user 10 QKQ1.200419.002 V12.0.6.0.QJDMIXM release-keys");
     }
 }
