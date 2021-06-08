@@ -12,13 +12,7 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 $(call inherit-product, frameworks/native/build/phone-xhdpi-6144-dalvik-heap.mk)
 
 # Get non-open-source specific aspects
-$(call inherit-product-if-exists, vendor/xiaomi/phoenix/phoenix-vendor.mk)
-
-# Include PSU if synced
-$(call inherit-product-if-exists, vendor/google/psu/google-psu.mk)
-
--include $(LOCAL_PATH)/system_prop.mk
--include $(LOCAL_PATH)/product_prop.mk
+$(call inherit-product-if-exists, vendor/xiaomi/apollopro/apollopro-vendor.mk)
 
 PRODUCT_BUILD_SUPER_PARTITION := false
 BOARD_BUILD_PRODUCT_IMAGE := true
@@ -51,13 +45,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     Snap
 
-# Device Settings
-PRODUCT_PACKAGES += \
-    XiaomiParts
-
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/parts/privapp-permissions-parts.xml:$(TARGET_COPY_OUT_PRODUCT)/etc/permissions/privapp-permissions-parts.xml
-
 # fastbootd
 PRODUCT_PACKAGES += \
     fastbootd
@@ -77,7 +64,7 @@ PRODUCT_COPY_FILES += \
 
 # Lights
 PRODUCT_PACKAGES += \
-    android.hardware.light@2.0-service.xiaomi_phoenix
+    android.hardware.light@2.0-service.xiaomi_apollopro
 
 # NFC
 PRODUCT_PACKAGES += \
@@ -87,14 +74,9 @@ PRODUCT_PACKAGES += \
     SecureElement \
     Tag
 
-# Notch style overlay
-PRODUCT_PACKAGES += \
-    NotchNoFillOverlay
-
 # Overlays
 DEVICE_PACKAGE_OVERLAYS += \
-    $(LOCAL_PATH)/overlay \
-    $(LOCAL_PATH)/overlay-aosip
+    $(LOCAL_PATH)/overlay
 
 # Overlays - override vendor ones
 PRODUCT_PACKAGES += \
@@ -105,14 +87,14 @@ PRODUCT_PACKAGES += \
 
 # Permissions
 PRODUCT_COPY_FILES += \
-    frameworks/native/data/etc/android.hardware.telephony.ims.xml:$(TARGET_COPY_OUT_PRODUCT)/etc/permissions/android.hardware.telephony.ims.xml \
-    frameworks/native/data/etc/android.hardware.consumerir.xml:$(TARGET_COPY_OUT_PRODUCT)/etc/permissions/android.hardware.consumerir.xml \
-    frameworks/native/data/etc/android.hardware.wifi.aware.xml:$(TARGET_COPY_OUT_PRODUCT)/etc/permissions/android.hardware.wifi.aware.xml \
-    frameworks/native/data/etc/android.hardware.wifi.rtt.xml:$(TARGET_COPY_OUT_PRODUCT)/etc/permissions/android.hardware.wifi.rtt.xml
+    frameworks/native/data/etc/android.hardware.telephony.ims.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/android.hardware.telephony.ims.xml \
+    frameworks/native/data/etc/android.hardware.consumerir.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/android.hardware.consumerir.xml \
+    frameworks/native/data/etc/android.hardware.wifi.aware.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/android.hardware.wifi.aware.xml \
+    frameworks/native/data/etc/android.hardware.wifi.rtt.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/android.hardware.wifi.rtt.xml
 
 # Power
 PRODUCT_PACKAGES += \
-    android.hardware.power@1.2-service.phoenix
+    android.hardware.power@1.2-service.apollopro
 
 # Telephony
 PRODUCT_PACKAGES += \
@@ -127,5 +109,53 @@ PRODUCT_PACKAGES += \
 PRODUCT_BOOT_JARS += \
     telephony-ext
 
-PRODUCT_SOONG_NAMESPACES += $(LOCAL_PATH)
+# Kernel modules
+KERNEL_MODULES_ORIG := $(LOCAL_PATH)/prebuilt/modules
+KERNEL_MODULES_DEST := $(TARGET_COPY_OUT_PRODUCT)/vendor_overlay/29/lib/modules
 
+PRODUCT_COPY_FILES += \
+    $(KERNEL_MODULES_ORIG)/audio_adsp_loader.ko:$(KERNEL_MODULES_DEST)/audio_adsp_loader.ko \
+    $(KERNEL_MODULES_ORIG)/audio_apr.ko:$(KERNEL_MODULES_DEST)/audio_apr.ko \
+    $(KERNEL_MODULES_ORIG)/audio_bolero_cdc.ko:$(KERNEL_MODULES_DEST)/audio_bolero_cdc.ko \
+    $(KERNEL_MODULES_ORIG)/audio_cs35l41.ko:$(KERNEL_MODULES_DEST)/audio_cs35l41.ko \
+    $(KERNEL_MODULES_ORIG)/audio_hdmi.ko:$(KERNEL_MODULES_DEST)/audio_hdmi.ko \
+    $(KERNEL_MODULES_ORIG)/audio_machine_kona.ko:$(KERNEL_MODULES_DEST)/audio_machine_kona.ko \
+    $(KERNEL_MODULES_ORIG)/audio_mbhc.ko:$(KERNEL_MODULES_DEST)/audio_mbhc.ko \
+    $(KERNEL_MODULES_ORIG)/audio_native.ko:$(KERNEL_MODULES_DEST)/audio_native.ko \
+    $(KERNEL_MODULES_ORIG)/audio_pinctrl_lpi.ko:$(KERNEL_MODULES_DEST)/audio_pinctrl_lpi.ko \
+    $(KERNEL_MODULES_ORIG)/audio_pinctrl_wcd.ko:$(KERNEL_MODULES_DEST)/audio_pinctrl_wcd.ko \
+    $(KERNEL_MODULES_ORIG)/audio_platform.ko:$(KERNEL_MODULES_DEST)/audio_platform.ko \
+    $(KERNEL_MODULES_ORIG)/audio_q6.ko:$(KERNEL_MODULES_DEST)/audio_q6.ko \
+    $(KERNEL_MODULES_ORIG)/audio_q6_notifier.ko:$(KERNEL_MODULES_DEST)/audio_q6_notifier.ko \
+    $(KERNEL_MODULES_ORIG)/audio_q6_pdr.ko:$(KERNEL_MODULES_DEST)/audio_q6_pdr.ko \
+    $(KERNEL_MODULES_ORIG)/audio_rx_macro.ko:$(KERNEL_MODULES_DEST)/audio_rx_macro.ko \
+    $(KERNEL_MODULES_ORIG)/audio_snd_event.ko:$(KERNEL_MODULES_DEST)/audio_snd_event.ko \
+    $(KERNEL_MODULES_ORIG)/audio_stub.ko:$(KERNEL_MODULES_DEST)/audio_stub.ko \
+    $(KERNEL_MODULES_ORIG)/audio_swr.ko:$(KERNEL_MODULES_DEST)/audio_swr.ko \
+    $(KERNEL_MODULES_ORIG)/audio_swr_ctrl.ko:$(KERNEL_MODULES_DEST)/audio_swr_ctrl.ko \
+    $(KERNEL_MODULES_ORIG)/audio_tfa98xx.ko:$(KERNEL_MODULES_DEST)/audio_tfa98xx.ko \
+    $(KERNEL_MODULES_ORIG)/audio_tx_macro.ko:$(KERNEL_MODULES_DEST)/audio_tx_macro.ko \
+    $(KERNEL_MODULES_ORIG)/audio_usf.ko:$(KERNEL_MODULES_DEST)/audio_usf.ko \
+    $(KERNEL_MODULES_ORIG)/audio_va_macro.ko:$(KERNEL_MODULES_DEST)/audio_va_macro.ko \
+    $(KERNEL_MODULES_ORIG)/audio_wcd938x.ko:$(KERNEL_MODULES_DEST)/audio_wcd938x.ko \
+    $(KERNEL_MODULES_ORIG)/audio_wcd938x_slave.ko:$(KERNEL_MODULES_DEST)/audio_wcd938x_slave.ko \
+    $(KERNEL_MODULES_ORIG)/audio_wcd9xxx.ko:$(KERNEL_MODULES_DEST)/audio_wcd9xxx.ko \
+    $(KERNEL_MODULES_ORIG)/audio_wcd_core.ko:$(KERNEL_MODULES_DEST)/audio_wcd_core.ko \
+    $(KERNEL_MODULES_ORIG)/audio_wsa881x.ko:$(KERNEL_MODULES_DEST)/audio_wsa881x.ko \
+    $(KERNEL_MODULES_ORIG)/audio_wsa_macro.ko:$(KERNEL_MODULES_DEST)/audio_wsa_macro.ko \
+    $(KERNEL_MODULES_ORIG)/br_netfilter.ko:$(KERNEL_MODULES_DEST)/br_netfilter.ko \
+    $(KERNEL_MODULES_ORIG)/exfat.ko:$(KERNEL_MODULES_DEST)/exfat.ko \
+    $(KERNEL_MODULES_ORIG)/gspca_main.ko:$(KERNEL_MODULES_DEST)/gspca_main.ko \
+    $(KERNEL_MODULES_ORIG)/lcd.ko:$(KERNEL_MODULES_DEST)/lcd.ko \
+    $(KERNEL_MODULES_ORIG)/llcc_perfmon.ko:$(KERNEL_MODULES_DEST)/llcc_perfmon.ko \
+    $(KERNEL_MODULES_ORIG)/modules.alias:$(KERNEL_MODULES_DEST)/modules.alias \
+    $(KERNEL_MODULES_ORIG)/modules.dep:$(KERNEL_MODULES_DEST)/modules.dep \
+    $(KERNEL_MODULES_ORIG)/mpq-adapter.ko:$(KERNEL_MODULES_DEST)/mpq-adapter.ko.ko \
+    $(KERNEL_MODULES_ORIG)/mpq-dmx-hw-plugin.ko:$(KERNEL_MODULES_DEST)/mpq-dmx-hw-plugin.ko.ko \
+    $(KERNEL_MODULES_ORIG)/qca_cld3_wlan.ko:$(KERNEL_MODULES_DEST)/qca_cld3_wlan.ko \
+    $(KERNEL_MODULES_ORIG)/rdbg.ko:$(KERNEL_MODULES_DEST)/rdbg.ko \
+    $(KERNEL_MODULES_ORIG)/rmnet_perf.ko:$(KERNEL_MODULES_DEST)/rmnet_perf.ko \
+    $(KERNEL_MODULES_ORIG)/rmnet_shs.ko:$(KERNEL_MODULES_DEST)/rmnet_shs.ko \
+    $(KERNEL_MODULES_ORIG)/sla.ko:$(KERNEL_MODULES_DEST)/sla.ko
+
+PRODUCT_SOONG_NAMESPACES += $(LOCAL_PATH)
